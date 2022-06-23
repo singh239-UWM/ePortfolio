@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <title>Baljinder's Portfolio</title>
+        <style>
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+        <script type="importmap"> 
+            { 
+                "imports": { 
+                    "three": "https://unpkg.com/three@0.141.0/build/three.module.js" 
+                } 
+            } 
+        </script>
+        <script type="module">
+            import * as THREE from 'three';
+
+            //texture loader 
+            const textureLoader = new THREE.TextureLoader();
+            const s = textureLoader.load( '../textures/star_texture.png' );
+            // const earthT = textureLoader.load( '../textures/2k_earth_daymap.jpg' );
+
+            const ballMat = new THREE.MeshStandardMaterial( {
+				color: 0xffffff,
+				roughness: 0.5,
+				metalness: 1.0
+			} );
+            textureLoader.load( "../textures/2k_earth_daymap.jpg", function ( map ) {
+
+                map.anisotropy = 4;
+                map.encoding = THREE.sRGBEncoding;
+                ballMat.map = map;
+                ballMat.needsUpdate = true;
+
+            } );
+            textureLoader.load( "../textures/2k_earth_specular_map.jpg", function ( map ) {
+
+                map.anisotropy = 4;
+                map.encoding = THREE.sRGBEncoding;
+                ballMat.metalnessMap = map;
+                ballMat.needsUpdate = true;
+
+            } );
+            // scene
+            const scene = new THREE.Scene();
+            // camera
+			const camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 100 );
+            
+
+            // // initial renderer
+			// const renderer = new THREE.WebGLRenderer();
+			// renderer.setSize( window.innerWidth, window.innerHeight );
+			// document.body.appendChild( renderer.domElement );
+
+            // object
+			const geometry = new THREE.SphereGeometry( 4, 32, 64 );
+
+            // 
+            const starsGeo = new THREE.BufferGeometry;
+            const starsCount = 2048;
+            const posArr = new Float32Array(starsCount * 3);
+
+            //earth 
+            const ballGeometry = new THREE.SphereGeometry( 6, 32, 32 );
+            const ballMesh = new THREE.Mesh( ballGeometry, ballMat );
+            
+            //
+            for( let i = 1; i < (starsCount * 3) + 1; i++) {
+                let v = (Math.random() -0.5) * 40
+                if( i % 3 == 0 && v >= 1) {
+                    posArr[i-1] = -1;
+                } else {
+                    posArr[i-1] = v;
+                }
+                
+            }
+            //
+            starsGeo.setAttribute('position', new THREE.BufferAttribute(posArr, 3))
+
+            // const material = new THREE.MeshBasicMaterial( { map: earthT } );
+            const starsMaterial = new THREE.PointsMaterial( { size: 0.10, map: s, transparent: true} );
+            // const sphere = new THREE.Mesh( geometry, material );
+
+            const starsMesh = new THREE.Points(starsGeo, starsMaterial)
+
+            scene.add( starsMesh );
+            starsMesh.position.z = 0;
+            //sphere.position.y = -4;
+			camera.position.z = 12;
+
+            // spot light
+            const bulbGeometry = new THREE.SphereGeometry(1, 8, 8);
+            const bulbLight = new THREE.PointLight(0xffffff, 300, 100);
+
+            const bulbMat = new THREE.MeshStandardMaterial({
+                emissive: 0xffffee,
+                emissiveIntensity: 1,
+                color: 0x000000
+            });
+            bulbLight.add(new THREE.Mesh(bulbGeometry, bulbMat));
+            bulbLight.position.set(20, 20, 16);
+            bulbLight.castShadow = true;
+            scene.add(bulbLight);
+            ballMesh.castShadow = true;
+            ballMesh.position.set(0, -6, 1)
+            ballMesh.rotation.x += -.25
+            scene.add( ballMesh );
+
+            // render
+            const renderer = new THREE.WebGLRenderer();
+				renderer.physicallyCorrectLights = true;
+				renderer.outputEncoding = THREE.sRGBEncoding;
+				renderer.shadowMap.enabled = true;
+				renderer.toneMapping = THREE.ReinhardToneMapping;
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+
+            // window resize render
+            window.addEventListener( 'resize', onWindowResize );
+
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize( window.innerWidth, window.innerHeight );
+            }
+
+
+			function animate() {
+				requestAnimationFrame( animate );
+                
+                ballMesh.rotation.y += 0.002
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+        </script>
+    </body>
+</html>
