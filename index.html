@@ -69,13 +69,13 @@
                     roughness: 0.5,
                     metalness: 1.0
                 } );
-                textureLoader.load( "/textures/2k_earth_daymap.jpg", function ( map ) {
+                textureLoader.load( "./textures/2k_earth_daymap.jpg", function ( map ) {
                     map.anisotropy = 4;
                     map.encoding = THREE.sRGBEncoding;
                     earthMat.map = map;
                     earthMat.needsUpdate = true;
                 } );
-                textureLoader.load( "/textures/2k_earth_specular_map.jpg", function ( map ) {
+                textureLoader.load( "./textures/2k_earth_specular_map.jpg", function ( map ) {
                     map.anisotropy = 4;
                     map.encoding = THREE.sRGBEncoding;
                     earthMat.metalnessMap = map;
