@@ -33,7 +33,7 @@
             // spotlight
             let spotLight, spotLightMat;
             // mats
-            let earthMat, earthMesh, starsMat, starsTexture;
+            let earthMat, earthMesh, starsMat, starsTexture, starsMesh;
 
             init();
             animate();
@@ -47,8 +47,8 @@
                 camera.position.z = 12;
 
                 // init spotlight
-                const spotLightGeo = new THREE.SphereGeometry(1, 8, 8);
-                spotLight = new THREE.PointLight(0xffffff, 300, 100);
+                const spotLightGeo = new THREE.SphereGeometry(8, 8, 8);
+                spotLight = new THREE.PointLight(0xD9AB73, 300, 100);
                 spotLightMat = new THREE.MeshStandardMaterial({
                     emissive: 0xffffee,
                     emissiveIntensity: 1,
@@ -66,8 +66,9 @@
 
                 earthMat = new THREE.MeshStandardMaterial( {
                     color: 0xffffff,
-                    roughness: 0.5,
-                    metalness: 1.0
+                    roughness: 0.8,
+                    metalness: 1.1,
+                    
                 } );
                 textureLoader.load( "./textures/2k_earth_daymap.jpg", function ( map ) {
                     map.anisotropy = 4;
@@ -97,8 +98,8 @@
                     
                 }
                 starsGeo.setAttribute('position', new THREE.BufferAttribute(starsPosArr, 3));
-                starsMat = new THREE.PointsMaterial( { size: 0.10, map: starsTexture, transparent: true} );
-                const starsMesh = new THREE.Points(starsGeo, starsMat);
+                starsMat = new THREE.PointsMaterial( { size: 0.14, map: starsTexture, transparent: true} );
+                starsMesh = new THREE.Points(starsGeo, starsMat);
                 starsMesh.position.z = 0;
 
                 // init earth
@@ -117,13 +118,25 @@
 				renderer.outputEncoding = THREE.sRGBEncoding;
 				renderer.shadowMap.enabled = true;
 				renderer.toneMapping = THREE.ReinhardToneMapping;
+                renderer.setClearColor(new THREE.Color('#03080D'), 1)
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				document.body.appendChild( renderer.domElement );
 
                 // resize event
                 window.addEventListener( 'resize', onWindowResize );
+
+                // mouse event
+                window.addEventListener( 'mousemove', animateStars );
+
                 
+            }
+
+            function animateStars(event) {
+                starsMesh.rotation.x = event.clientY * 0.0002;
+                starsMesh.rotation.y = event.clientX * 0.00005;
+
+                //earthMesh.position.set(event.clientX * 0.0003, -6 , 1)
             }
 
             function onWindowResize() {
@@ -135,7 +148,7 @@
             function animate() {
 				requestAnimationFrame( animate );
                 
-                earthMesh.rotation.y += 0.002
+                earthMesh.rotation.y += 0.0006
 
 				renderer.render( scene, camera );
 			};
