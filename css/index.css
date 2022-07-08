@@ -22,6 +22,26 @@
     /* background-color: #03080D; */
 }
 
+.explore {
+    color: #ffffff; 
+    font-family: 'Genos', sans-serif; 
+    font-weight: 300;
+    text-align: center;
+    font-size: 90px;
+    padding: 5px 10px 5px 10px;
+    border-radius: 23px;
+}
+
+.links {
+    color: #F2A74B; 
+    font-family: 'Genos', sans-serif; 
+    font-weight: 300;
+    text-align: center;
+    font-size: 80px;
+    padding: 5px 10px 5px 10px;
+    border-radius: 23px;
+}
+
 @media screen and (max-width: 900px) {
     .name {
         font-size: 100px;
@@ -29,6 +49,10 @@
 
     .skills {
         font-size: 31px;
+    }
+    
+    .links {
+        font-size: 60px;
     }
 }
 
@@ -38,7 +62,11 @@
     }
 
     .skills {
-        font-size: 25px;
+        font-size: 33px;
+    }
+    
+    .links {
+        font-size: 50px;
     }
 }
 
