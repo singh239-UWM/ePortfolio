@@ -5,35 +5,75 @@
 } */
 
 .name {
-    color: #F2A74B; 
-    letter-spacing: 8px; 
-    font-weight: 400;
-    font-size: 120px;
+    /* color: #fdb71a; */
+    color:#7cf2fb;
+    letter-spacing: 5px;
+    border-bottom: 3px solid rgb(98, 192, 199);
+    border-bottom-right-radius: 100px;
+    border-bottom-left-radius: 100px;
+    /* border-top: 5px solid rgb(192, 8, 1);
+    border-top-right-radius: 100px;
+    border-top-left-radius: 100px;
+    background-color: #ffffff; */
+    font-weight: 500;
+    font-size: 105px;
     font-family: 'Genos', sans-serif; 
     text-align: center;
+    z-index: 100;
+	display:block
 }
 
 .skills {
     color: #ffffff; 
     font-family: 'Genos', sans-serif; 
-    font-weight: 200;
+    font-weight: 300;
     text-align: center;
-    font-size: 50px; 
+    font-size: 50px;
+    border-top: 3px solid rgb(98, 192, 199);
+    border-top-right-radius: 100px;
+    border-top-left-radius: 100px;
     /* background-color: #03080D; */
 }
 
 .explore {
-    color: #ffffff; 
+    color: rgb(0, 0, 0); 
+    font-weight: 400;
+    font-size: 70px;
     font-family: 'Genos', sans-serif; 
-    font-weight: 300;
     text-align: center;
-    font-size: 90px;
-    padding: 5px 10px 5px 10px;
-    border-radius: 23px;
+    text-decoration: none;
+    display: block;
+    width: 420px;
+    margin-top: 20px;
+    
+	background:linear-gradient(to bottom, rgb(124, 242, 251) 5%, rgb(98, 192, 199) 80%);
+	/* background-color:#fdb71a; */
+	border-radius:40px;
+	cursor:pointer;
+	padding:0px 50px;    
 }
 
+.explore:hover{
+    /* color: #fdb71a; */
+    /* text-shadow: 0px 4px 3px rgba(253, 181, 26, 0.75),
+             0px 8px 13px rgba(253,183,26,0.50),
+             0px 18px 23px rgba(253,183,26,0.25); */
+             /* text-shadow: -10px 10px 0px #b17f13,
+                 -20px 20px 0px #5c420b,
+                 -30px 30px 0px #291d04; */
+    color: white;
+    box-shadow: 0px 7px 16px 2px rgb(125, 228, 255);
+                 
+}
+
+.explore:active {
+	position:relative;
+	top:1px;
+}
+
+
 .links {
-    color: #F2A74B; 
+    color: #ffffff; 
     font-family: 'Genos', sans-serif; 
     font-weight: 300;
     text-align: center;
@@ -42,9 +82,17 @@
     border-radius: 23px;
 }
 
-@media screen and (max-width: 900px) {
+.clock {
+    color: #ffffff; 
+    font-family: 'Genos', sans-serif; 
+    font-weight: 300;
+    text-align: center;
+    font-size: 50px;
+}
+
+@media screen and (max-width: 950px) {
     .name {
-        font-size: 100px;
+        font-size: 110px;
     }
 
     .skills {

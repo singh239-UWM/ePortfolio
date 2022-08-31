@@ -61,14 +61,14 @@ function init() {
     const starsPosArr = new Float32Array(starsCount * 3);
     // filing stars position
     for (let i = 1; i < (starsCount * 3) + 1; i++) {
-        let v = (Math.random() - 0.5) * 40
-        if (i % 3 == 0 && v >= 1) {
-            starsPosArr[i - 1] = -1;
-        } else {
-            starsPosArr[i - 1] = v;
-        }
+        // let v = (Math.random() - 0.5) * 40
+        // if (i % 3 == 0 && v >= 1) {
+        //     starsPosArr[i - 1] = -1;
+        // } else {
+        //     starsPosArr[i - 1] = v;
+        // }
 
-        // starsPosArr[i - 1] = (Math.random() - 0.5) * 40;
+        starsPosArr[i - 1] = (Math.random() - 0.5) * 40;
     }
     starsGeo.setAttribute('position', new THREE.BufferAttribute(starsPosArr, 3));
     starsMat = new THREE.PointsMaterial({ size: 0.14, map: starsTexture, transparent: true });
@@ -102,12 +102,15 @@ function init() {
     // mouse event
     window.addEventListener('mousemove', animateStars);
 
+    //
+    document.getElementById("explore").addEventListener("click", () => updateDiv());
+
 
 }
 // star animation handler
 function animateStars(event) {
-    starsMesh.rotation.x = event.clientY * 0.00008;
-    starsMesh.rotation.y = event.clientX * 0.00002;
+    starsMesh.position.x = event.clientX * 0.0003;
+    starsMesh.position.y = -(event.clientY * 0.0003);
 
     //earthMesh.position.set(event.clientX * 0.0003, -6 , 1)
 }
@@ -121,7 +124,84 @@ function onWindowResize() {
 function animate() {
     requestAnimationFrame(animate);
 
-    earthMesh.rotation.y += 0.0006
+    earthMesh.rotation.y += 0.0006;
+
+    starsMesh.rotation.y += 0.0002;
 
     renderer.render(scene, camera);
 };
+
+function updateDiv() {
+    //requestAnimationFrame( updateCamera );
+    var x = document.getElementById("explore");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+
+    x = document.getElementById("head");
+
+    x.innerHTML = "EXPLORE"
+
+    x = document.getElementById("skills");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+
+    x = document.getElementById("more1");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+
+function Time() {
+    // Creating object of the Date class
+    var date = new Date();
+    // Get current hour
+    var hour = date.getHours();
+    // Get current minute
+    var minute = date.getMinutes();
+    // Get current second
+    var second = date.getSeconds();
+    // Variable to store AM / PM
+    var period = "";
+    // Assigning AM / PM according to the current hour
+    if (hour >= 12) {
+        period = "PM";
+    } else {
+        period = "AM";
+    }
+    // Converting the hour in 12-hour format
+    if (hour == 0) {
+        hour = 12;
+    } else {
+        if (hour > 12) {
+            hour = hour - 12;
+        }
+    }
+    // Updating hour, minute, and second
+    // if they are less than 10
+    hour = update(hour);
+    minute = update(minute);
+    second = update(second);
+    // Adding time elements to the div
+    document.getElementById("digital-clock").innerText = hour + " : " + minute + " : " + second + " " + period;
+    // Set Timer to 1 sec (1000 ms)
+    setTimeout(Time, 1000);
+}
+// Function to update time elements if they are less than 10
+// Append 0 before time elements if they are less than 10
+function update(t) {
+    if (t < 10) {
+        return "0" + t;
+    }
+    else {
+        return t;
+    }
+}
+Time();
